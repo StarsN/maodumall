@@ -12,7 +12,9 @@ import com.a409.maodumall.web.mapper.UserInfoMapper;
 import com.a409.maodumall.web.pojo.UserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
+/**
+ * 测试
+ */
 /**
  * 用户处理器
  * @author Administrator
