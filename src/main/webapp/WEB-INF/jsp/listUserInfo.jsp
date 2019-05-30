@@ -40,6 +40,8 @@
 			password:<input name="password"><br>
 			<button type="submit">提交</button>
 		</form>
+		<a href="preLogin">登录</a>
+		<a href="preRegister">注册</a>
 	</div>
 </body>
 </html>

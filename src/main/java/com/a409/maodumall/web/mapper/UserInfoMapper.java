@@ -34,6 +34,10 @@ public interface UserInfoMapper {
 	@Select("select * from user_info where uid = #{uid}")
 	public UserInfo get(int uid);
 	
+	//根据用户名字寻找用户
+	@Select("select * from user_info where username = #{username}")
+	public UserInfo getByUserName(String userName);
+	
 	//更改用户
 	@Update("update user_info set username = #{userName} where uid = #{uid}")
 	public int update(UserInfo userInfo);

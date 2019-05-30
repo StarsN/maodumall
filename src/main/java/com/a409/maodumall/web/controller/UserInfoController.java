@@ -7,14 +7,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.a409.maodumall.web.mapper.UserInfoMapper;
 import com.a409.maodumall.web.pojo.UserInfo;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-/**
- * 测试
- */
+
 /**
  * 用户处理器
  * @author Administrator
@@ -68,5 +67,54 @@ public class UserInfoController {
 		UserInfo u = userInfoMapper.get(uid);
 		m.addAttribute("u", u);
 		return "editUserInfo";
+	}
+	
+	//登录页面跳转
+	@RequestMapping("/preLogin")
+	public String preLogin() {
+		return "login";
+	}
+	//简单登录
+	@ResponseBody
+	@RequestMapping("/userLogin")
+	public String login(UserInfo userInfo) {
+		//如果userInfo不为空
+		if(userInfo != null && userInfo.getUserName() != null) {
+			//根据输入名字查找数据库
+			UserInfo dbUserInfo = userInfoMapper.getByUserName(userInfo.getUserName());
+			//得到数据库中用户的密码
+			String dbpassword = dbUserInfo.getPassword();
+			//如果输入密码与数据库中的密码一致，显示登录成功
+			if(userInfo.getPassword().equals(dbpassword)) {
+				return "登录成功";
+			}
+			return "登录失败";
+		}
+		return "登录失败";
+	}
+	
+	//跳转注册页面
+	@RequestMapping("/preRegister")
+	public String preRegister() {
+		return "register";
+	}
+	//简单注册
+	@ResponseBody
+	@RequestMapping("/userRegister")
+	public String register(UserInfo userInfo) {
+		//判断用户不为空，用户名不为空
+		if(userInfo != null && userInfo.getUserName() != null) {
+			//根据用户名查找数据库
+			UserInfo dbUserInfo = userInfoMapper.getByUserName(userInfo.getUserName());
+			//用户存在，显示注册失败
+			if(dbUserInfo != null) {
+				return "注册失败";
+			}
+			userInfoMapper.save(userInfo);
+			System.out.println("注册成功\n  userName:" + userInfo.getUserName() + ", password:" + userInfo.getPassword());
+			return "注册成功";
+		}
+		//否则，显示注册失败
+		return "注册失败";
 	}
 }
